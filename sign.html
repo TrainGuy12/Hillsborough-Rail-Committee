@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sign the Petition. Hillsborough Rail Committee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="">
+
+<div class="ribbon">
+  <div class="wrap">
+    <span><span class="dot"></span>Citizen-led ballot initiative · Hillsborough County, Florida</span>
+    <span>Petition Filed · Sec. of State Ref. No. 26-04 · Submission Deadline Feb 1, 2027</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">H</span>
+      <span class="brand-text">
+        <span class="l1">Hillsborough Rail Committee</span>
+        <span class="l2">A Citizens' Proposal · Est. 2026</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Overview</a>
+      <a href="amendment.html">Amendment</a>
+      <a href="funding.html">Funding</a>
+      <a href="past.html">Past</a>
+      <span class="nav-divider"></span>
+      <a href="phases.html">Phases</a>
+      <span class="nav-divider"></span>
+      <span class="phase-group">
+        <a href="phase-1.html">Ph 1</a><a href="phase-2.html">Ph 2</a><a href="phase-3.html">Ph 3</a><a href="phase-4.html">Ph 4</a>
+      </span>
+      <span class="nav-divider"></span>
+      <a href="sign.html" class="cta-btn">Sign the Petition</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-hero" data-screen-label="Sign the Petition.">
+  <div class="container">
+    <div class="page-hero-grid">
+      <div>
+        <div class="eyebrow"><span class="section-num">§ 06</span>Take Action</div>
+        <h1>Sign the Petition.</h1>
+      </div>
+      <p class="page-lede">The amendment reaches the November 2026 ballot when 150,000 verified signatures are filed by February 1, 2027. Florida law requires wet-ink signatures from registered Hillsborough County voters.</p>
+    </div>
+  </div>
+</section><section class="sign" id="sign" data-screen-label="06 Sign">
+  <div class="container">
+    
+
+    <div class="body">
+      <div class="pitch">
+        <h3>Three minutes, a stamp, and your name on the ballot.</h3>
+        <p>The Florida Constitution requires citizen-led ballot amendments to gather signatures by hand. We can't sign for you online. but we can make every other step take less than five minutes total.</p>
+        <div class="sign-process">
+          <div class="step">
+            <div class="n">1</div>
+            <div>
+              <h6>Submit your details below</h6>
+              <p>Name, address, and email. We confirm your registration with the Supervisor of Elections.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">2</div>
+            <div>
+              <h6>Receive a petition form by mail</h6>
+              <p>Pre-printed, pre-addressed, with a postage-paid return envelope. Arrives in 3-5 business days.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="n">3</div>
+            <div>
+              <h6>Sign, witness, mail back</h6>
+              <p>Sign in the presence of any adult witness. Drop in any USPS box. We do the rest.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="form-card" id="petitionForm" onsubmit="event.preventDefault(); document.getElementById('toast').classList.add('show'); this.querySelector('button[type=submit]').textContent='✓  Submitted';">
+        <h4>Request my petition form</h4>
+        <div class="sub">FORM 26-A · CITIZEN INITIATIVE PETITION REQUEST</div>
+        <div class="field-grid">
+          <div class="field">
+            <label>First name</label>
+            <input type="text" name="first" required placeholder="Jane" />
+          </div>
+          <div class="field">
+            <label>Last name</label>
+            <input type="text" name="last" required placeholder="Rodriguez" />
+          </div>
+          <div class="field full">
+            <label>Street address</label>
+            <input type="text" name="street" required placeholder="412 N. Franklin St." />
+          </div>
+          <div class="field">
+            <label>City</label>
+            <input type="text" name="city" required placeholder="Tampa" />
+          </div>
+          <div class="field">
+            <label>ZIP code</label>
+            <input type="text" name="zip" required placeholder="33602" pattern="[0-9]{5}" />
+          </div>
+          <div class="field full">
+            <label>Email address</label>
+            <input type="email" name="email" required placeholder="jane@example.com" />
+          </div>
+          <div class="field full">
+            <label>Voter precinct (optional)</label>
+            <select name="precinct">
+              <option>I don't know my precinct</option>
+              <option>HC-101. Tampa Heights</option>
+              <option>HC-204. Hyde Park</option>
+              <option>HC-318. Ybor City</option>
+              <option>HC-422. Brandon</option>
+              <option>HC-516. University</option>
+            </select>
+          </div>
+        </div>
+        <label class="check-row">
+          <input type="checkbox" required />
+          <span>I attest that I am a registered voter in Hillsborough County, Florida, and I authorize the Citizens' Drafting Committee to verify my registration with the Supervisor of Elections.</span>
+        </label>
+        <label class="check-row">
+          <input type="checkbox" />
+          <span>Send me campaign updates and volunteer opportunities (optional).</span>
+        </label>
+        <div class="submit-row">
+          <button type="submit" class="cta-btn">Mail me the petition</button>
+          <span class="fineprint">FREE · NO PAYMENT REQUIRED<br/>Pol. adv. paid for by Citizens' Drafting Committee</span>
+        </div>
+        <div class="toast" id="toast">
+          <b>Thank you.</b> Your petition form will arrive within 3-5 business days. Watch your mailbox for an envelope from <i>Citizens' Drafting Committee, P.O. Box 4408, Tampa FL 33677</i>.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          Hillsborough Rail Committee<br />
+          A Citizens' Proposal
+          <small>EST. 2026 · TAMPA, FLORIDA</small>
+        </div>
+      </div>
+      <div>
+        <h6>The Proposal</h6>
+        <a href="index.html">Overview</a>
+        <a href="amendment.html">Amendment text</a>
+        <a href="funding.html">Funding plan</a>
+        <a href="past.html">Past attempts</a>
+      </div>
+      <div>
+        <h6>Network</h6>
+        <a href="phase-1.html">Phase 1. CSX Spur &amp; Streetcar</a>
+        <a href="phase-2.html">Phase 2. Airport &amp; Cypress</a>
+        <a href="phase-3.html">Phase 3. USF &amp; Grey Line</a>
+        <a href="phase-4.html">Phase 4. Commuter Rail</a>
+      </div>
+      <div>
+        <h6>Take action</h6>
+        <a href="sign.html">Sign the petition</a>
+        <a href="#">Volunteer</a>
+        <a href="#">Donate to the campaign</a>
+        <a href="#">Press &amp; media</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 CITIZENS' DRAFTING COMMITTEE · POL. ADV. APPROVED BY THE TREASURER</span>
+      <span>P.O. BOX 4408 · TAMPA, FL 33677</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

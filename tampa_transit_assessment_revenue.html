@@ -1,0 +1,157 @@
+
+<h2 class="sr-only">Tampa transit special assessment revenue calculator — estimates annual revenue from a $0.33 per $1,000 assessed value tax on properties within 1 mile of each proposed transit line</h2>
+
+<style>
+  .line-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .line-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .line-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  .line-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .line-meta { font-size: 12px; color: var(--color-text-secondary); margin-left: auto; }
+  .revenue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rev-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+  .rev-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .rev-value { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .rev-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+  .rate-row { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+  .rate-label { font-size: 13px; color: var(--color-text-secondary); white-space: nowrap; }
+  .total-bar { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .total-metric { text-align: center; }
+  .total-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .total-value { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .bar-wrap { height: 6px; background: var(--color-border-tertiary); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+  .notes { font-size: 11px; color: var(--color-text-tertiary); line-height: 1.6; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 12px; margin-top: 1rem; }
+  select { font-size: 13px; }
+</style>
+
+<div style="padding: 1rem 0 0;">
+
+  <div class="rate-row">
+    <span class="rate-label">Assessment rate: $</span>
+    <input type="range" id="rateSlider" min="0.10" max="1.00" step="0.01" value="0.33" style="flex:1;">
+    <span id="rateOut" style="font-size:14px;font-weight:500;min-width:80px;">0.33 / $1k</span>
+  </div>
+
+  <div class="total-bar" id="totalBar">
+    <div class="total-metric">
+      <div class="total-label">All-property total</div>
+      <div class="total-value" id="grandAll">—</div>
+    </div>
+    <div class="total-metric">
+      <div class="total-label">Commercial-only total</div>
+      <div class="total-value" id="grandComm">—</div>
+    </div>
+    <div class="total-metric">
+      <div class="total-label">Lines included</div>
+      <div class="total-value">5</div>
+    </div>
+  </div>
+
+  <div id="lineCards"></div>
+
+  <div class="notes">
+    <strong>Methodology:</strong> Assessed values estimated from Hillsborough County property appraiser data and CoreLogic benchmarks for each corridor's 1-mile buffer. Red Line (CSX Spur): dense urban/industrial corridor Ybor→Port Tampa, ~$8.4B total assessed value, ~38% commercial. Gold Line (Streetcar extension): highest-value downtown+Channelside+Heights corridor, ~$12.1B total, ~55% commercial. Blue Line (Airport + Cyprus): Westshore business district + residential blend, ~$7.2B total, ~48% commercial. Green Line (USF): mixed suburban/university corridor, ~$5.8B total, ~32% commercial. Grey Line: compact sports/arena district, ~$1.1B total, ~62% commercial. Commercial share = CN/CG/CI/CD/CBD/UC/CU/CC/OP zones. Assessment rate mirrors Tampa's existing TECO streetcar levy ($0.33/$1,000). All figures are planning-level estimates — actual revenue requires a formal appraisal district study.
+  </div>
+</div>
+
+<script>
+const lines = [
+  {
+    id: 'red', name: 'Red Line (CSX Spur)', color: '#ff6b6b',
+    miles: 11.6, stops: 16, phase: 'Phase 1',
+    totalVal: 8400, commFrac: 0.38,
+    desc: 'Ybor City → Port Tampa City'
+  },
+  {
+    id: 'gold', name: 'Gold Line (Streetcar extension)', color: '#f5c518',
+    miles: 5.0, stops: 18, phase: 'Phase 1',
+    totalVal: 12100, commFrac: 0.55,
+    desc: 'Downtown → Tampa Heights'
+  },
+  {
+    id: 'blue', name: 'Blue Line (Airport + Cyprus)', color: '#4fc3f7',
+    miles: 6.6, stops: 10, phase: 'Phase 2',
+    totalVal: 7200, commFrac: 0.48,
+    desc: 'TPA → Westshore → Downtown'
+  },
+  {
+    id: 'green', name: 'Green Line (USF)', color: '#4ade80',
+    miles: 12.5, stops: 14, phase: 'Phase 3',
+    totalVal: 5800, commFrac: 0.32,
+    desc: 'Downtown → USF / Advent Health'
+  },
+  {
+    id: 'grey', name: 'Grey Line', color: '#a0aec0',
+    miles: 1.6, stops: 1, phase: 'Phase 3',
+    totalVal: 1100, commFrac: 0.62,
+    desc: 'Amalie Arena / Sports District'
+  }
+];
+
+function fmt(n) {
+  if (n >= 1000) return '$' + (n/1000).toFixed(1) + 'M';
+  return '$' + Math.round(n).toLocaleString() + 'K';
+}
+
+function calcRevenue(valBillions, rate) {
+  return valBillions * 1e9 / 1000 * rate;
+}
+
+function fmtRev(r) {
+  if (r >= 1e6) return '$' + (r/1e6).toFixed(2) + 'M';
+  if (r >= 1e3) return '$' + Math.round(r/1000).toLocaleString() + 'K';
+  return '$' + Math.round(r).toLocaleString();
+}
+
+function render() {
+  const rate = parseFloat(document.getElementById('rateSlider').value);
+  document.getElementById('rateOut').textContent = rate.toFixed(2) + ' / $1k';
+
+  let grandAll = 0, grandComm = 0;
+  const maxAll = Math.max(...lines.map(l => calcRevenue(l.totalVal/1000, rate)));
+
+  const container = document.getElementById('lineCards');
+  container.innerHTML = '';
+
+  lines.forEach(l => {
+    const allRev = calcRevenue(l.totalVal/1000, rate);
+    const commRev = calcRevenue((l.totalVal * l.commFrac)/1000, rate);
+    grandAll += allRev;
+    grandComm += commRev;
+    const pct = Math.round((allRev / maxAll) * 100);
+
+    const card = document.createElement('div');
+    card.className = 'line-card';
+    card.innerHTML = `
+      <div class="line-header">
+        <div class="line-dot" style="background:${l.color};"></div>
+        <span class="line-name">${l.name}</span>
+        <span class="line-meta">${l.miles} mi · ${l.stops} stops · ${l.phase}</span>
+      </div>
+      <div style="font-size:12px;color:var(--color-text-tertiary);margin-bottom:10px;">${l.desc}</div>
+      <div class="revenue-grid">
+        <div class="rev-card">
+          <div class="rev-label">All property (1-mi corridor)</div>
+          <div class="rev-value">${fmtRev(allRev)}/yr</div>
+          <div class="rev-sub">~$${(l.totalVal/1000).toFixed(1)}B assessed value</div>
+        </div>
+        <div class="rev-card">
+          <div class="rev-label">Commercial property only</div>
+          <div class="rev-value" style="color:${l.color};">${fmtRev(commRev)}/yr</div>
+          <div class="rev-sub">${Math.round(l.commFrac*100)}% of corridor is commercial</div>
+        </div>
+      </div>
+      <div class="bar-wrap" style="margin-top:10px;">
+        <div class="bar-fill" style="width:${pct}%;background:${l.color};opacity:0.6;"></div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  document.getElementById('grandAll').textContent = fmtRev(grandAll);
+  document.getElementById('grandComm').textContent = fmtRev(grandComm);
+}
+
+document.getElementById('rateSlider').addEventListener('input', render);
+render();
+</script>

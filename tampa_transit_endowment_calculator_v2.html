@@ -1,0 +1,215 @@
+
+<h2 class="sr-only">Tampa Transit Endowment Calculator — models how a one-time endowment generates annual distributions to supplement transit operations and keep fares free</h2>
+
+<div style="padding: 1.5rem 0 0;">
+
+  <div style="margin-bottom: 1.5rem;">
+    <p style="font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-text-tertiary); margin: 0 0 4px;">Tampa Transit Master Plan</p>
+    <p style="font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin: 0;">Endowment funding model</p>
+    <p style="font-size: 14px; color: var(--color-text-secondary); margin: 6px 0 0; line-height: 1.6;">A one-time endowment invested in perpetuity. Annual distributions supplement operations and keep fares free — the principal is never spent.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 10px; margin-bottom: 1.5rem;">
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+      <p style="font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; letter-spacing: 1px; text-transform: uppercase;">Endowment size</p>
+      <p style="font-size: 24px; font-weight: 500; color: var(--color-text-primary); margin: 0;" id="disp-principal">$25M</p>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+      <p style="font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; letter-spacing: 1px; text-transform: uppercase;">Annual distribution</p>
+      <p style="font-size: 24px; font-weight: 500; color: var(--color-text-info); margin: 0;" id="disp-annual">$1.25M</p>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+      <p style="font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; letter-spacing: 1px; text-transform: uppercase;">Fund value at 30 yrs</p>
+      <p style="font-size: 24px; font-weight: 500; color: var(--color-text-success); margin: 0;" id="disp-future">$117M</p>
+    </div>
+    <div style="background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem;">
+      <p style="font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; letter-spacing: 1px; text-transform: uppercase;">Total distributed (30 yrs)</p>
+      <p style="font-size: 24px; font-weight: 500; color: var(--color-text-primary); margin: 0;" id="disp-total">$37.5M</p>
+    </div>
+  </div>
+
+  <div style="border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.25rem;">
+
+    <div style="margin-bottom: 1.25rem;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+        <label style="font-size: 13px; color: var(--color-text-secondary);">Endowment size</label>
+        <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary);" id="lbl-principal">$25M</span>
+      </div>
+      <input type="range" id="sl-principal" min="5" max="150" step="5" value="25" style="width: 100%;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px;">
+        <span>$5M</span><span>$150M</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 1.25rem;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+        <label style="font-size: 13px; color: var(--color-text-secondary);">Annual distribution rate</label>
+        <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary);" id="lbl-draw">5.0%</span>
+      </div>
+      <input type="range" id="sl-draw" min="3" max="7" step="0.5" value="5" style="width: 100%;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px;">
+        <span>3% (conservative)</span><span>7% (aggressive)</span>
+      </div>
+    </div>
+
+    <div>
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+        <label style="font-size: 13px; color: var(--color-text-secondary);">Investment return rate</label>
+        <span style="font-size: 13px; font-weight: 500; color: var(--color-text-primary);" id="lbl-return">7.0%</span>
+      </div>
+      <input type="range" id="sl-return" min="4" max="10" step="0.5" value="7" style="width: 100%;">
+      <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--color-text-tertiary); margin-top: 3px;">
+        <span>4% (bonds)</span><span>10% (equities)</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-bottom: 0.75rem;">
+    <div style="display: flex; gap: 16px; margin-bottom: 8px; font-size: 12px; color: var(--color-text-secondary);">
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:3px;display:inline-block;background:#185fa5;border-radius:2px;"></span>Fund value</span>
+      <span style="display:flex;align-items:center;gap:5px;"><span style="width:12px;height:2px;display:inline-block;border-top:2px dashed #3b6d11;"></span>Annual distribution</span>
+    </div>
+    <div style="position: relative; height: 220px;">
+      <canvas id="growthChart" role="img" aria-label="Line chart showing endowment fund value and annual distribution over 30 years">Endowment fund value and annual distribution over 30 years.</canvas>
+    </div>
+  </div>
+
+  <div id="sustainability-note" style="border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; margin-top: 1rem; border: 0.5px solid var(--color-border-tertiary);"></div>
+
+  <p style="font-size: 11px; color: var(--color-text-tertiary); margin: 1rem 0 0; line-height: 1.5;">Net growth = (return rate − draw rate) × annual fund balance. Distributions taken at end of each year. Principal is never drawn down.</p>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+let chart = null;
+
+function fmt(n) {
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n/1e3) + 'K';
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function calcGrowth(principal, drawRate, returnRate, years) {
+  const fund = [], dist = [];
+  let v = principal;
+  for (let y = 0; y <= years; y++) {
+    fund.push(Math.round(v));
+    dist.push(Math.round(v * drawRate));
+    v = v * (1 + returnRate) - v * drawRate;
+    if (v < 0) v = 0;
+  }
+  return { fund, dist };
+}
+
+function update() {
+  const principal = parseFloat(document.getElementById('sl-principal').value) * 1e6;
+  const draw  = parseFloat(document.getElementById('sl-draw').value) / 100;
+  const ret   = parseFloat(document.getElementById('sl-return').value) / 100;
+
+  document.getElementById('lbl-principal').textContent = fmt(principal);
+  document.getElementById('lbl-draw').textContent = (draw*100).toFixed(1) + '%';
+  document.getElementById('lbl-return').textContent = (ret*100).toFixed(1) + '%';
+  document.getElementById('disp-principal').textContent = fmt(principal);
+
+  const annual = Math.round(principal * draw);
+  document.getElementById('disp-annual').textContent = fmt(annual);
+
+  const { fund, dist } = calcGrowth(principal, draw, ret, 30);
+  document.getElementById('disp-future').textContent = fmt(fund[30]);
+
+  const totalDist = dist.reduce((a,b) => a+b, 0);
+  document.getElementById('disp-total').textContent = fmt(totalDist);
+
+  const netRate = ret - draw;
+  const note = document.getElementById('sustainability-note');
+  if (netRate > 0) {
+    note.style.background = 'var(--color-background-success)';
+    note.style.borderColor = 'var(--color-border-success)';
+    note.style.color = 'var(--color-text-success)';
+    note.innerHTML = '<strong>Sustainable</strong> — return exceeds draw rate by ' + (netRate*100).toFixed(1) + '%. The fund grows over time and distributions increase in dollar terms each year.';
+  } else if (netRate === 0) {
+    note.style.background = 'var(--color-background-warning)';
+    note.style.borderColor = 'var(--color-border-warning)';
+    note.style.color = 'var(--color-text-warning)';
+    note.innerHTML = '<strong>Break-even</strong> — return equals draw rate. The fund holds steady in nominal terms but loses value to inflation over time.';
+  } else {
+    note.style.background = 'var(--color-background-danger)';
+    note.style.borderColor = 'var(--color-border-danger)';
+    note.style.color = 'var(--color-text-danger)';
+    note.innerHTML = '<strong>Drawdown</strong> — draw rate exceeds return by ' + Math.abs(netRate*100).toFixed(1) + '%. The fund will be depleted in approximately ' + Math.round(-1/Math.log(1 + netRate)) + ' years.';
+  }
+
+  const labels = Array.from({length:31}, (_,i) => i === 0 ? 'Now' : 'Yr '+i);
+
+  if (chart) {
+    chart.data.datasets[0].data = fund;
+    chart.data.datasets[1].data = dist;
+    chart.update('none');
+  } else {
+    chart = new Chart(document.getElementById('growthChart'), {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Fund value',
+            data: fund,
+            borderColor: '#185fa5',
+            backgroundColor: 'rgba(24,95,165,0.06)',
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: true,
+            tension: 0.3,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Annual distribution',
+            data: dist,
+            borderColor: '#3b6d11',
+            borderWidth: 1.5,
+            borderDash: [5,4],
+            pointRadius: 0,
+            fill: false,
+            tension: 0.3,
+            yAxisID: 'y2'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } }
+        },
+        scales: {
+          x: {
+            ticks: { font:{size:10}, maxTicksLimit:8, color:'#888780' },
+            grid: { color:'rgba(136,135,128,0.12)' }
+          },
+          y: {
+            position: 'left',
+            ticks: { font:{size:10}, color:'#185fa5', callback: v => fmt(v) },
+            grid: { color:'rgba(136,135,128,0.12)' }
+          },
+          y2: {
+            position: 'right',
+            ticks: { font:{size:10}, color:'#3b6d11', callback: v => fmt(v) },
+            grid: { display:false }
+          }
+        }
+      }
+    });
+  }
+}
+
+['sl-principal','sl-draw','sl-return'].forEach(id => {
+  document.getElementById(id).addEventListener('input', update);
+});
+
+update();
+</script>
